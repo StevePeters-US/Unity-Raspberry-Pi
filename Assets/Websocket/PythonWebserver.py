@@ -58,39 +58,6 @@ def init():
     GPIO.setup(25, GPIO.OUT) #IN4
 
     atexit.register(OnExit)
-    #kp.init()
-
-def main():
-    """
-    print(kp.getKey('a'))
-    if kp.getKey('a'):
-        toggleLight(True)
-    else:
-        toggleLight(False)
-
-    if kp.getKey('f'):
-        quit()
-
-    if kp.getKey('UP'):
-        moveLeftMotor(1)
-        moveRightMotor(1)
-
-    elif kp.getKey('DOWN'):
-        moveLeftMotor(-1)
-        moveRightMotor(-1)
-
-    elif kp.getKey('LEFT'):
-        moveLeftMotor(-1)
-        moveRightMotor(1)
-
-    elif kp.getKey('RIGHT'):
-        moveLeftMotor(1)
-        moveRightMotor(-1)
-
-    else:
-        moveLeftMotor(0)
-        moveRightMotor(0)
-    """
 
 def OnExit():
     print("Exiting Python server")
@@ -152,6 +119,26 @@ async def echo(websocket, path):
             else:
                 toggleLight(False)
 
+            if inJson["moveUp"] == True:
+                moveLeftMotor(1)
+                moveRightMotor(1)
+
+            elif inJson["moveDown"] == True:
+                moveLeftMotor(-1)
+                moveRightMotor(-1)
+
+            elif inJson["moveLeft"] == True:
+                moveLeftMotor(-1)
+                moveRightMotor(1)
+
+            elif inJson["moveRight"] == True:
+                moveLeftMotor(1)
+                moveRightMotor(-1)
+
+            else:
+                moveLeftMotor(0)
+                moveRightMotor(0)
+
             await websocket.send("Pong: " + message)
     except websockets.exceptions.ConnectionClosed as e:
         print("A client just disconnected")
@@ -165,5 +152,3 @@ if __name__ == '__main__':
 
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
-    #while True:
-    #    main()

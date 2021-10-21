@@ -9,6 +9,11 @@ public struct JsonData {
     public int level;
     public float timeElapsed;
     public string LED;
+
+    public bool moveUp;
+    public bool moveDown;
+    public bool moveLeft;
+    public bool moveRight;
 }
 
 public class WebSocketClient : MonoBehaviour {
@@ -29,7 +34,7 @@ public class WebSocketClient : MonoBehaviour {
         };
 
 
-        InvokeRepeating("SendMessageToServer", 0, 0.25f);
+        InvokeRepeating("SendMessageToServer", 0, 0.1f);
     }
 
     void SendMessageToServer() {
@@ -44,6 +49,42 @@ public class WebSocketClient : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.A)) {
             jsonData.LED = "off";
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow)) {
+            jsonData.moveUp = true;
+        }
+
+        else {
+            jsonData.moveUp = false;
+        }
+
+
+        if (Input.GetKey(KeyCode.DownArrow)) {
+            jsonData.moveDown = true;
+        }
+
+        else {
+            jsonData.moveDown = false;
+        }
+
+
+        if (Input.GetKey(KeyCode.LeftArrow)) {
+            jsonData.moveLeft = true;
+        }
+
+        else {
+            jsonData.moveLeft = false;
+        }
+
+
+
+        if (Input.GetKey(KeyCode.RightArrow)) {
+            jsonData.moveRight = true;
+        }
+
+        else {
+            jsonData.moveRight = false;
         }
 
         string outJson = JsonUtility.ToJson(jsonData);
