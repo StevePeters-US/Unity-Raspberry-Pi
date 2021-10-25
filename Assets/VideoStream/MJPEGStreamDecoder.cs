@@ -23,7 +23,7 @@ public class MJPEGStreamDecoder : MonoBehaviour {
 
     [SerializeField] RenderTexture renderTexture;
 
-    float RETRY_DELAY = 5f;
+    //float RETRY_DELAY = 5f;
     int MAX_RETRIES = 3;
     int retryCount = 0;
 
