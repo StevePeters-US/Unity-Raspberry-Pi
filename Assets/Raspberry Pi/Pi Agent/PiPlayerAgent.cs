@@ -161,14 +161,17 @@ namespace APG {
         }
 
         private void ControlAgentMovement() {
+
+            MoveDirectionDiscrete currentMoveDirection = _playerInputHandler.GetMoveDirectionDiscrete();
+
             // Connect to our real world car using the web socket client
             if (controlIRLCar) {
                 _webSocketClient.SendMessageToServer(
                     _playerInputHandler.hasLEDInput ? "on" : "off",
-                    false,
-                    false,
-                    false,
-                    false);
+                    currentMoveDirection == MoveDirectionDiscrete.forward,
+                    currentMoveDirection == MoveDirectionDiscrete.backward,
+                    currentMoveDirection == MoveDirectionDiscrete.left,
+                    currentMoveDirection == MoveDirectionDiscrete.right);
             }
 
             // Otherwise control our simulated car

@@ -1,6 +1,14 @@
 using UnityEngine;
 
 namespace APG {
+    public enum MoveDirectionDiscrete {
+        none,
+        forward,
+        backward,
+        left,
+        right
+    }
+
     public class PlayerInputHandler : MonoBehaviour {
         private PiInputActions playerInputControls;
 
@@ -12,7 +20,7 @@ namespace APG {
         public float moveForward => inputMove.x;
         public float moveRight => inputMove.y;
         public float moveMagnitude => Vector2.SqrMagnitude(inputMove);
-        public Vector3 moveDirection => new Vector3(inputMove.x, 0, inputMove.y);
+        public Vector3 moveDirection => new Vector3(inputMove.y, 0, inputMove.x);
 
         public float lookUp => inputLook.y;
         public float lookRight => inputLook.x;
@@ -39,6 +47,33 @@ namespace APG {
         }
         private void OnDisable() {
             playerInputControls.PiCar.Disable();
+        }
+
+        public MoveDirectionDiscrete GetMoveDirectionDiscrete() {
+            MoveDirectionDiscrete moveDirectionDiscrete = new MoveDirectionDiscrete();
+
+            if (moveDirection.x > 0.5f) {
+                moveDirectionDiscrete = MoveDirectionDiscrete.forward;
+            }
+
+            else if (moveDirection.x < -0.5f) {
+                moveDirectionDiscrete = MoveDirectionDiscrete.backward;
+            }
+
+            else if (moveDirection.z < -0.5f) {
+                moveDirectionDiscrete = MoveDirectionDiscrete.left;
+            }
+
+            else if (moveDirection.z > 0.5f) {
+                moveDirectionDiscrete = MoveDirectionDiscrete.right;
+            }
+
+            else {
+                moveDirectionDiscrete = MoveDirectionDiscrete.none;
+            }
+
+            return moveDirectionDiscrete;
+
         }
 
         // Set game pause in the game manager
