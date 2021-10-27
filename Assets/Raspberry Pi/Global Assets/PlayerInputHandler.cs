@@ -6,7 +6,7 @@ namespace APG {
 
         private Vector2 inputMove;
         private Vector2 inputLook;
-        private bool inputJump;
+        private bool inputLED;
 
         // x direction maps to z direction in 3d space
         public float moveForward => inputMove.x;
@@ -18,7 +18,7 @@ namespace APG {
         public float lookRight => inputLook.x;
         public Vector2 lookDir => inputLook;
 
-        public bool hasJumpInput => inputJump;
+        public bool hasLEDInput => inputLED;
 
 
         private void Awake() {
@@ -27,11 +27,8 @@ namespace APG {
             playerInputControls.PiCar.Move.performed += context => inputMove = context.ReadValue<Vector2>();
             playerInputControls.PiCar.Move.canceled += context => inputMove = Vector2.zero;
 
-           // playerInputControls.PiCar.Look.performed += context => inputLook = context.ReadValue<Vector2>();
-           // playerInputControls.PiCar.Look.canceled += context => inputLook = Vector2.zero;
-
-          //  playerInputControls.PiCar.Jump.performed += context => inputJump = context.ReadValue<float>() > 0.5f;
-           // playerInputControls.PiCar.Jump.canceled += context => inputJump = false;
+            playerInputControls.PiCar.LED.performed += context => inputLED = context.ReadValue<float>() > 0.5f;
+            playerInputControls.PiCar.LED.canceled += context => inputLED = false;
 
             playerInputControls.PiCar.Pause.performed += context => PauseApplication();
             playerInputControls.PiCar.Quit.performed += context => QuitApplication();
