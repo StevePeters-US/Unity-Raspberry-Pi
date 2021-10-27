@@ -481,7 +481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tryOnStart: 1
-  defaultStreamURL: http://192.168.0.103:8001/stream.mjpg
+  defaultStreamURL: http://192.168.0.111:8001/stream.mjpg
   renderTexture: {fileID: 8400000, guid: 409e9a8e9a81cae469b16ecb94cfb5f8, type: 2}
 --- !u!1 &1165651404
 GameObject:

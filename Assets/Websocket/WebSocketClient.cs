@@ -17,6 +17,9 @@ public struct JsonData {
 }
 
 public class WebSocketClient : MonoBehaviour {
+
+    private string webSocketAddress = "192.168.0.111:7890";
+
     JsonData jsonData;
     WebSocket ws;
 
@@ -27,7 +30,7 @@ public class WebSocketClient : MonoBehaviour {
         jsonData.timeElapsed = 47.5f;
         jsonData.LED = "off";
 
-        ws = new WebSocket("ws://192.168.0.103:7890");
+        ws = new WebSocket("ws://" + webSocketAddress);
         ws.Connect();
         ws.OnMessage += (sender, e) => {
             Debug.Log("Message received from " + ((WebSocket)sender).Url + ", Data : " + e.Data);

@@ -39,7 +39,7 @@ namespace APG {
             _rigidbody = GetComponent<Rigidbody>();
             _playerInputHandler = GetComponent<PlayerInputHandler>();
             _movementController = GetComponent<PlayerAgentMovementController>();
-            _movementController.playerAgent = this;
+           //!!!! _movementController.playerAgent = this;
 
             //    _envManagerTransform = envManager.transform;
 
@@ -87,7 +87,7 @@ namespace APG {
                   EndEpisode();
               }*/
 
-            _movementController.UpdateMovement(agentMoveInputDirection, agentLookDir, agentHasJumpInput);
+          //  _movementController.UpdateMovement(agentMoveInputDirection, agentLookDir, agentHasJumpInput);
 
             // Existential penalty to encourage agent to move towards the goal quickly
             AddReward(-(1.0f / MaxStep));
