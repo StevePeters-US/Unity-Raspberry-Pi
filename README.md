@@ -83,13 +83,15 @@
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
+The intent of this project is to create a low cost robot which can be trained and controlled from Unity instance on a seperate machine.
 
+This project started as an elegoo ardiuino car kit. You can find a similar kit with just the chassis, wheels, and motors for about $20. I ended up using the elegoo ln298 motor controller which came with the kit, which can also be found for a few bucks.
 
+I'm using a pi zero on the car which isn't particularly powerful, but it is cheap ($15) and has built in wifi. Add a $5 buck converter and a $15 and we end up with a total hardware cost under $100.
 
-This build is based off of an Elegoo arduino kit - https://www.elegoo.com/products/elegoo-smart-robot-car-kit-v-3-0-plus
-which is fairly cheap on Amazon.
+Since the pi is fairly slow we want to keep as much computation done remotely as possible. We can do this by hosting a python websocket server on the pi which controls the GPIO pins. We can access this server in Unity with websockets plus
 
-I'm using a pi zero on the car, which doesn't have enough processing power to run inference, so it has to be controlled remotely. To do this 
+which doesn't have enough processing power to run inference, so it has to be controlled remotely. To do this 
 I set up a simple web socket server on the pi which can be accessed with websockets plus in Unity c#.
 
 
@@ -116,9 +118,11 @@ I set up a simple web socket server on the pi which can be accessed with websock
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
+[Here](https://www.youtube.com/watch?v=13HnJPstnDM) is a great video explaining how Unity can interact with websockets
+
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+Install websockets sharp in Unity
 * npm
   ```sh
   npm install npm@latest -g
@@ -126,11 +130,9 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Set the pi ip address to a static address - 
- https://howchoo.com/pi/configure-static-ip-address-raspberry-pi#:~:text=How%20to%20Configure%20a%20Static%20IP%20Address%20on,...%205%20Test%20the%20static%20IP%20address.%20
+1. [Set the pi ip address to a static address](https://howchoo.com/pi/configure-static-ip-address-raspberry-pi#:~:text=How%20to%20Configure%20a%20Static%20IP%20Address%20on,...%205%20Test%20the%20static%20IP%20address.%20)
 
-2.  Set the camera streaming server and GPIO control server to run on start with a chron job
-    https://www.bc-robotics.com/tutorials/setting-cron-job-raspberry-pi/
+2.  [Set the camera streaming server and GPIO control server to run on start with a chron job](https://www.bc-robotics.com/tutorials/setting-cron-job-raspberry-pi/)
 
 3. Install NPM packages
    ```sh
@@ -200,8 +202,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@Steve04](https://twitter.com/@Steve04)
-Project Link: [https://github.com/StevePeters-US/Unity-Raspberry-Pi](https://github.com/StevePeters-US/Unity-Raspberry-Pi)
+[@Steve04](https://twitter.com/@Steve04)
+
+[https://github.com/StevePeters-US/Unity-Raspberry-Pi](https://github.com/StevePeters-US/Unity-Raspberry-Pi)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -232,6 +235,6 @@ Project Link: [https://github.com/StevePeters-US/Unity-Raspberry-Pi](https://git
 [license-url]: https://github.com/StevePeters-US/Unity-Raspberry-Pi/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/stevempeters
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: images/PiCar.jpg
 
  
