@@ -4,7 +4,7 @@ import logging
 import socketserver
 from threading import Condition
 from http import server
-
+# width="640" height="480"
 PAGE="""\
 <html>
 <head>
@@ -12,7 +12,7 @@ PAGE="""\
 </head>
 <body>
 <h1>PiCamera MJPEG Streaming Demo</h1>
-<img src="stream.mjpg" width="640" height="480" />
+<img src="stream.mjpg" width="84" height="84" />
 </body>
 </html>
 """
@@ -77,12 +77,11 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
 
-with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
+with picamera.PiCamera(resolution='84x84', framerate=24) as camera:
     camera.vflip = False
     camera.hflip = False
     output = StreamingOutput()
     camera.start_recording(output, format='mjpeg')
-    #camera.start_recording(output, format='h264')
     try:
         address = ('', 8001)
         server = StreamingServer(address, StreamingHandler)
