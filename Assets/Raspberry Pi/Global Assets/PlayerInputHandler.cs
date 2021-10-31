@@ -73,7 +73,6 @@ namespace APG {
             }
 
             return moveDirectionDiscrete;
-
         }
 
         // Set game pause in the game manager
