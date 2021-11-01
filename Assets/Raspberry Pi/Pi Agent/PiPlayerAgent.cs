@@ -22,8 +22,10 @@ namespace APG {
         public bool controlIRLCar = false;
         public float movementControlPeriod = 0.1f;
 
+        private PiGoal piGoal;
+
         // If true, control through websocketclient, otherwise through playeragentmovementcontroller
-       // private bool usingHeuristicBehaviors;
+        // private bool usingHeuristicBehaviors;
 
         MoveDirectionDiscrete currentMoveDirection;
         //[SerializeField] private float killHeight = -2;
@@ -37,12 +39,28 @@ namespace APG {
 
             _webSocketClient = GetComponent<WebSocketClient>();
 
-           // usingHeuristicBehaviors = GetComponent<Unity.MLAgents.Policies.BehaviorParameters>().BehaviorType == Unity.MLAgents.Policies.BehaviorType.HeuristicOnly;
+            // usingHeuristicBehaviors = GetComponent<Unity.MLAgents.Policies.BehaviorParameters>().BehaviorType == Unity.MLAgents.Policies.BehaviorType.HeuristicOnly;
 
             if (controlIRLCar) { _webSocketClient.InitializeWebSocketClient(); }
 
             InvokeRepeating("ControlAgentMovement", 0, movementControlPeriod);
         }
+
+        public void SubscribeToGoal(PiGoal newPiGoal) {
+            if (piGoal)
+                piGoal.OnGoalTriggered -= GoalTriggered;
+
+            piGoal = newPiGoal;
+            piGoal.OnGoalTriggered += GoalTriggered;
+        }
+
+        // A player agent has entered the goal, ask the game state what to do
+        public void GoalTriggered() {
+            Debug.Log("Goal Triggered");
+            AddReward(1);
+            EndEpisode();
+        }
+
 
         // I'm leaving this is in for now to give the player the option of manually controlling the agent or allowing the ai to take over
         private void SetAgentBehaviorTypeHeuristic(bool usesHeursiticBehaviors) {
@@ -78,10 +96,6 @@ namespace APG {
             AddReward(reward);
         }
 
-        public void AgentReachedGoal() {
-            AddReward(1);
-            EndEpisode();
-        }
 
         public override void Heuristic(in ActionBuffers actionsOut) {
             // 0 = none
@@ -118,7 +132,7 @@ namespace APG {
 
             // Otherwise control our simulated car
             else {
-                _movementController.UpdateMovement(Vector3.zero, Vector2.zero, false);
+                _movementController.UpdateMovement(currentMoveDirection);
             }
         }
     }

@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace APG
-{
+namespace APG {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerAgentMovementController : MonoBehaviour
-    {
+    public class PlayerAgentMovementController : MonoBehaviour {
 
         [HideInInspector] public PiPlayerAgent playerAgent;
 
@@ -15,12 +13,37 @@ namespace APG
         [SerializeField] private float maxVelocity = 35f;
         [SerializeField] private float turnSpeed = 150f;
 
+        [SerializeField] private ScriptableObject botMovementData;
+
         private void Awake() {
             _rigidbody = GetComponent<Rigidbody>();
         }
 
-        public void UpdateMovement(Vector3 inputDir, Vector2 lookDir, bool hasJumpInput) {
-            Vector3 velocity = _rigidbody.velocity;
+        public void UpdateMovement(MoveDirectionDiscrete moveDirection) {
+
+            // These need to be in a scriptable object
+            float moveForce = 50f;
+            float turnForce = 50f;
+
+            switch (moveDirection) {
+                case MoveDirectionDiscrete.none:
+                    break;
+                case MoveDirectionDiscrete.forward:
+                    _rigidbody.AddForce(moveForce * _rigidbody.transform.forward);
+                    break;
+                case MoveDirectionDiscrete.backward:
+                    _rigidbody.AddForce(moveForce * -_rigidbody.transform.forward);
+                    break;
+                case MoveDirectionDiscrete.left:
+                    _rigidbody.AddTorque(turnForce * -_rigidbody.transform.up);
+                    break;
+                case MoveDirectionDiscrete.right:
+                    _rigidbody.AddTorque(turnForce * _rigidbody.transform.up);
+                    break;
+            }
+
+
+         /*   Vector3 velocity = _rigidbody.velocity;
 
             Vector3 forward = transform.forward;
             forward.y = 0f;
@@ -37,7 +60,7 @@ namespace APG
 
             // Turning
             float angle = lookDir.x * turnSpeed;
-            transform.Rotate(Vector3.up, Time.fixedDeltaTime * angle);
+            transform.Rotate(Vector3.up, Time.fixedDeltaTime * angle);*/
         }
     }
 }
