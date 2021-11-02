@@ -7,13 +7,12 @@ namespace APG
 {
     public class PiGoal : MonoBehaviour
     {
-        public event Action OnGoalTriggered;
-
         private void OnTriggerEnter(Collider other) {
             Debug.Log("Goal Entered");
             PiPlayerAgent playerAgent = other.GetComponent<PiPlayerAgent>();
-            if (playerAgent)
-                OnGoalTriggered?.Invoke();
+            if (playerAgent) {
+                playerAgent.GoalTriggered();
+            }
         }
 
     }

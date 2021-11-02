@@ -31,7 +31,14 @@ namespace APG {
         //[SerializeField] private float killHeight = -2;
 
         public Transform Target;
-        bool endEpisode = false;
+
+        private StatsRecorder stats;
+
+        #region initialize
+        public override void Initialize() {
+            stats = Academy.Instance.StatsRecorder;
+        }
+
         protected void Awake() {
 
             //  _rigidbody = GetComponent<Rigidbody>();
@@ -49,19 +56,12 @@ namespace APG {
             InvokeRepeating("ControlAgentMovement", 0, movementControlPeriod);
         }
 
-        public void SubscribeToGoal(PiGoal newPiGoal) {
-            if (piGoal)
-                piGoal.OnGoalTriggered -= GoalTriggered;
-
-            piGoal = newPiGoal;
-            piGoal.OnGoalTriggered += GoalTriggered;
-        }
+        #endregion
 
         // A player agent has entered the goal, ask the game state what to do
         public void GoalTriggered() {
             Debug.Log("Goal Triggered");
             AddReward(1);
-            endEpisode = true;
             EndEpisode();
         }
 
@@ -79,12 +79,15 @@ namespace APG {
 
         public override void OnEpisodeBegin() {
             Debug.Log("episode begin");
-            endEpisode = false;
 
             // Move the target to a new spot
-            Target.localPosition = new Vector3(Random.value * 4 - 2,
+     /*       Target.localPosition = new Vector3(Random.value * 4 - 2,
                                                0.14f,
-                                               Random.value * 4 +2);
+                                               Random.value * 4 +2);*/
+
+            Target.localPosition = new Vector3(Random.value * 1,
+                                        0.14f,
+                                        Random.value * 1 + 1);
 
 
             // _envManager.ResetEnvironment();
@@ -106,15 +109,13 @@ namespace APG {
         }
 
         private void FixedUpdate() {
-            if (endEpisode) {
-                EndEpisode();
-            }
-
             // Existential penalty to encourage agent to move towards the goal quickly
             float reward = -1;
             if (MaxStep > 0)
                 reward = -(1.0f / MaxStep);
             AddReward(reward);
+
+            stats.Add("Distance from start", System.Convert.ToInt32(Vector3.Distance(transform.position, Vector3.zero)));
         }
 
 
