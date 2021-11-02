@@ -30,7 +30,10 @@ namespace APG {
         MoveDirectionDiscrete currentMoveDirection;
         //[SerializeField] private float killHeight = -2;
 
+        public Transform Target;
+        bool endEpisode = false;
         protected void Awake() {
+
             //  _rigidbody = GetComponent<Rigidbody>();
             _playerInputHandler = GetComponent<PlayerInputHandler>();
 
@@ -58,6 +61,7 @@ namespace APG {
         public void GoalTriggered() {
             Debug.Log("Goal Triggered");
             AddReward(1);
+            endEpisode = true;
             EndEpisode();
         }
 
@@ -74,7 +78,20 @@ namespace APG {
         }
 
         public override void OnEpisodeBegin() {
+            Debug.Log("episode begin");
+            endEpisode = false;
+
+            // Move the target to a new spot
+            Target.localPosition = new Vector3(Random.value * 4 - 2,
+                                               0.14f,
+                                               Random.value * 4 +2);
+
+
             // _envManager.ResetEnvironment();
+            GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            transform.position = new Vector3(0f, 0.1f, 0f);
+            transform.rotation = new Quaternion();
         }
 
         // These are the observations that are fed to the model on decision request (defaults to every 5th fixed frame in the decision requester component attached to the agent).
@@ -89,6 +106,10 @@ namespace APG {
         }
 
         private void FixedUpdate() {
+            if (endEpisode) {
+                EndEpisode();
+            }
+
             // Existential penalty to encourage agent to move towards the goal quickly
             float reward = -1;
             if (MaxStep > 0)

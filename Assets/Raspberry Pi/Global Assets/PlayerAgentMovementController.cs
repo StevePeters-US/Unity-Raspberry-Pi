@@ -20,10 +20,10 @@ namespace APG {
         }
 
         public void UpdateMovement(MoveDirectionDiscrete moveDirection) {
-
+            _rigidbody.maxAngularVelocity = 20;
             // These need to be in a scriptable object
-            float moveForce = 50f;
-            float turnForce = 50f;
+            float moveForce = 75f;
+            float turnForce = 75f;
 
             switch (moveDirection) {
                 case MoveDirectionDiscrete.none:

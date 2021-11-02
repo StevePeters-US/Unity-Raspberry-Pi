@@ -1463,7 +1463,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461080957}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.22, y: 0.089, z: -0.936}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1502,9 +1502,10 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
+  MaxStep: 1000
   controlIRLCar: 0
   movementControlPeriod: 0.1
+  Target: {fileID: 1797988134}
 --- !u!114 &1461080963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1618,11 +1619,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 282f342c2ab144bf38be65d4d0c4e07d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Camera: {fileID: 963194227}
+  m_Camera: {fileID: 229012055}
   m_SensorName: CameraSensor
   m_Width: 84
   m_Height: 84
-  m_Grayscale: 1
+  m_Grayscale: 0
   m_ObservationType: 0
   m_ObservationStacks: 1
   m_Compression: 1
@@ -1675,6 +1676,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddcb543b5c7a1745a3ba41f79921213, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1797988134 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 653782580423586719, guid: bc55405f13f8c1e4c88d59718bcaf354, type: 3}
+  m_PrefabInstance: {fileID: 653782582149213374}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1893189815
 PrefabInstance:
   m_ObjectHideFlags: 0
