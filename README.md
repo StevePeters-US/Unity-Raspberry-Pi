@@ -90,10 +90,9 @@ This project started as an elegoo ardiuino car kit. You can find a similar kit w
 
 I'm using a pi zero on the car which isn't particularly powerful, but it is cheap ($15) and has built in wifi. Add a $5 buck converter and a $15 and we end up with a total hardware cost under $100.
 
-Since the pi is fairly slow we want to keep as much computation done remotely as possible. We can do this by hosting a python websocket server on the pi which controls the GPIO pins. We can access this server in Unity with websockets plus
-which doesn't have enough processing power to run inference, so it has to be controlled remotely. To do this I set up a simple web socket server on the pi which runs in tandem with the GPIO controlling websocket server. This camera stream can be viewed
-from a render texture in unity. We'll just need to decode it with the MJEP stream decoder. We'll then projectthis render texture to a plane and point a camera at it so that the agent can view it from a camera sensor. I stuck with a small 84 x 84
-texture to minimize training time and network usage, but this can be increased if needed.
+Since the pi is fairly slow we want to keep as much computation done remotely as possible. We can do this by hosting a python websocket server on the pi which controls the GPIO pins. We can access this server in Unity with websockets plus.
+To handle camera streaming I set up a camera streaming server which runs in tandem with the GPIO controlling websocket server. This camera stream can be viewed from a render texture in unity. We'll just need to decode it with the MJEP stream decoder.
+ We'll then project this render texture to a plane and point a camera at it so that the agent can view it from a camera sensor. I stuck with a small 84 x 84 texture to minimize training time and network usage, but this can be increased if needed.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
