@@ -143,6 +143,8 @@ Install websockets sharp in Unity
    const API_KEY = 'ENTER YOUR API';
    ```
 
+5. MJPEG stream decoder - credit - Light from shadows https://gist.github.com/lightfromshadows/79029ca480393270009173abc7cad858
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 

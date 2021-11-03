@@ -1,5 +1,3 @@
-//using System.Collections;
-//using System.Collections.Generic;
 using UnityEngine;
 using WebSocketSharp;
 using System;
@@ -7,8 +5,6 @@ using System;
 namespace APG {
     [Serializable]
     public struct JsonData {
-        public int level;
-        public float timeElapsed;
         public string LED;
 
         public bool moveUp;
@@ -29,8 +25,6 @@ namespace APG {
         // Start is called before the first frame update
         public void InitializeWebSocketClient() {
             jsonData = new JsonData();
-            jsonData.level = 1;
-            jsonData.timeElapsed = 47.5f;
             jsonData.LED = "off";
 
             ws = new WebSocket("ws://" + webSocketAddress);
@@ -38,9 +32,6 @@ namespace APG {
             ws.OnMessage += (sender, e) => {
                 Debug.Log("Message received from " + ((WebSocket)sender).Url + ", Data : " + e.Data);
             };
-
-
-           // InvokeRepeating("SendMessageToServer", 0, 0.1f);
         }
 
         public void SendMessageToServer(String LED, bool up, bool down, bool left, bool right) {

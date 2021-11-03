@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -11,27 +8,15 @@ namespace APG {
     [RequireComponent(typeof(PlayerAgentMovementController))]
     [RequireComponent(typeof(DecisionRequester))]
     [RequireComponent(typeof(WebSocketClient))]
-    //[RequireComponent(typeof(Collider))]
-    //[RequireComponent(typeof(Rigidbody))]
     public class PiPlayerAgent : Agent {
 
         protected PlayerInputHandler _playerInputHandler;
         private PlayerAgentMovementController _movementController;
         private WebSocketClient _webSocketClient;
-
         public bool controlIRLCar = false;
         public float movementControlPeriod = 0.1f;
-
-        private PiGoal piGoal;
-
-        // If true, control through websocketclient, otherwise through playeragentmovementcontroller
-        // private bool usingHeuristicBehaviors;
-
         MoveDirectionDiscrete currentMoveDirection;
-        //[SerializeField] private float killHeight = -2;
-
         public Transform Target;
-
         private StatsRecorder stats;
 
         #region initialize
@@ -40,16 +25,12 @@ namespace APG {
         }
 
         protected void Awake() {
-
-            //  _rigidbody = GetComponent<Rigidbody>();
             _playerInputHandler = GetComponent<PlayerInputHandler>();
 
             _movementController = GetComponent<PlayerAgentMovementController>();
             _movementController.playerAgent = this;
 
             _webSocketClient = GetComponent<WebSocketClient>();
-
-            // usingHeuristicBehaviors = GetComponent<Unity.MLAgents.Policies.BehaviorParameters>().BehaviorType == Unity.MLAgents.Policies.BehaviorType.HeuristicOnly;
 
             if (controlIRLCar) { _webSocketClient.InitializeWebSocketClient(); }
 
@@ -65,32 +46,12 @@ namespace APG {
             EndEpisode();
         }
 
-
-        // I'm leaving this is in for now to give the player the option of manually controlling the agent or allowing the ai to take over
-        private void SetAgentBehaviorTypeHeuristic(bool usesHeursiticBehaviors) {
-            if (usesHeursiticBehaviors) {
-                GetComponent<Unity.MLAgents.Policies.BehaviorParameters>().BehaviorType = Unity.MLAgents.Policies.BehaviorType.HeuristicOnly;
-            }
-
-            else {
-                GetComponent<Unity.MLAgents.Policies.BehaviorParameters>().BehaviorType = Unity.MLAgents.Policies.BehaviorType.InferenceOnly;
-            }
-        }
-
         public override void OnEpisodeBegin() {
-            Debug.Log("episode begin");
-
-            // Move the target to a new spot
-     /*       Target.localPosition = new Vector3(Random.value * 4 - 2,
-                                               0.14f,
-                                               Random.value * 4 +2);*/
 
             Target.localPosition = new Vector3(Random.value * 1,
                                         0.14f,
                                         Random.value * 1 + 1);
 
-
-            // _envManager.ResetEnvironment();
             GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             transform.position = new Vector3(0f, 0.1f, 0f);
@@ -100,12 +61,7 @@ namespace APG {
         // These are the observations that are fed to the model on decision request (defaults to every 5th fixed frame in the decision requester component attached to the agent).
         // The number of observations needs to match the number of vector observations in the behavior parameters on the player agent
         public override void CollectObservations(VectorSensor sensor) {
-            // 6 observations
-            //sensor.AddObservation(localPosition);
-            //  sensor.AddObservation(Rigidbody.velocity);
-
-            // 4 Observations
-            //sensor.AddObservation(transform.rotation);
+            // The camera is currently the only source of information for the agent
         }
 
         private void FixedUpdate() {

@@ -13,7 +13,6 @@ namespace APG {
         private PiInputActions playerInputControls;
 
         private Vector2 inputMove;
-        private Vector2 inputLook;
         private bool inputLED;
 
         // x direction maps to z direction in 3d space
@@ -21,11 +20,6 @@ namespace APG {
         public float moveRight => inputMove.y;
         public float moveMagnitude => Vector2.SqrMagnitude(inputMove);
         public Vector3 moveDirection => new Vector3(inputMove.y, 0, inputMove.x);
-
-        public float lookUp => inputLook.y;
-        public float lookRight => inputLook.x;
-        public Vector2 lookDir => inputLook;
-
         public bool hasLEDInput => inputLED;
 
 
