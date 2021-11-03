@@ -83,6 +83,7 @@
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
+
 The intent of this project is to create a low cost robot which can be trained and controlled from Unity instance on a seperate machine.
 
 This project started as an elegoo ardiuino car kit. You can find a similar kit with just the chassis, wheels, and motors for about $20. I ended up using the elegoo ln298 motor controller which came with the kit, which can also be found for a few bucks.
@@ -90,14 +91,11 @@ This project started as an elegoo ardiuino car kit. You can find a similar kit w
 I'm using a pi zero on the car which isn't particularly powerful, but it is cheap ($15) and has built in wifi. Add a $5 buck converter and a $15 and we end up with a total hardware cost under $100.
 
 Since the pi is fairly slow we want to keep as much computation done remotely as possible. We can do this by hosting a python websocket server on the pi which controls the GPIO pins. We can access this server in Unity with websockets plus
-
-which doesn't have enough processing power to run inference, so it has to be controlled remotely. To do this 
-I set up a simple web socket server on the pi which can be accessed with websockets plus in Unity c#.
-
+which doesn't have enough processing power to run inference, so it has to be controlled remotely. To do this I set up a simple web socket server on the pi which runs in tandem with the GPIO controlling websocket server. This camera stream can be viewed
+from a render texture in unity. We'll just need to decode it with the MJEP stream decoder. We'll then projectthis render texture to a plane and point a camera at it so that the agent can view it from a camera sensor. I stuck with a small 84 x 84
+texture to minimize training time and network usage, but this can be increased if needed.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 ### Built With
 
@@ -115,45 +113,39 @@ I set up a simple web socket server on the pi which can be accessed with websock
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+To get this project running you'll need to set up a raspberry pi powered car with a python websocket server running over local wifi.
 
 [Here](https://www.youtube.com/watch?v=13HnJPstnDM) is a great video explaining how Unity can interact with websockets
 
 ### Prerequisites
 
-Install websockets sharp in Unity
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+Install websockets sharp in Unity via NuGet, as well as Unity mlagents
 
 ### Installation
 
 1. [Set the pi ip address to a static address](https://howchoo.com/pi/configure-static-ip-address-raspberry-pi#:~:text=How%20to%20Configure%20a%20Static%20IP%20Address%20on,...%205%20Test%20the%20static%20IP%20address.%20)
 
-2.  [Set the camera streaming server and GPIO control server to run on start with a chron job](https://www.bc-robotics.com/tutorials/setting-cron-job-raspberry-pi/)
-
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-5. MJPEG stream decoder - credit - Light from shadows https://gist.github.com/lightfromshadows/79029ca480393270009173abc7cad858
+2. [Set the camera streaming server and GPIO control server to run on start with a chron job](https://www.bc-robotics.com/tutorials/setting-cron-job-raspberry-pi/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
+1. To control the car remotely
+   ```
+   enable the camera stream object
+   On the agent/behavior parameters, set the behaviour type to heuristic
+   Agent/Pi Player Agent, control IRL car = true
+   ```
+2. To allow remote ml agent control
+   ```
+   enable the camera stream object
+   On the agent/behavior parameters, set the behaviour type to inference
+   On the agent/behavior parameters, ensure that there is a picarbehavior set for the model
+   Agent/Pi Player Agent, control IRL car = false
+   Agent/Camera Sensor, set the camera to stream camera
+   ```
 _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -162,11 +154,10 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <!-- ROADMAP -->
 ## Roadmap
-
-- [] Feature 1
-- [] Feature 2
-- [] Feature 3
-    - [] Nested Feature
+In future projects I plan on attempting:
+- Using the hdrp raytracing pipeline
+- Switching to a pi3 A+ since it only costs $10 more than the pi zero, but has 4 cores and 5ghz wifi
+- Object detection
 
 See the [open issues](https://github.com/StevePeters-US/Unity-Raspberry-Pi/issues) for a full list of proposed features (and known issues).
 
@@ -215,9 +206,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+*  MJPEG stream decoder - credit - Light from shadows https://gist.github.com/lightfromshadows/79029ca480393270009173abc7cad858
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
